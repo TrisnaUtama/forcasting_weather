@@ -6,12 +6,15 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+
+
 API = os.getenv("API_URL")
-code = pd.read_csv("code.csv")
 
 def main():
     st.title("🌤️ Perkiraan Cuaca BMKG")
     st.write("Sumber Data: [BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)](https://www.bmkg.go.id)")
+
+    code = pd.read_csv("code.csv")
 
     option_province = st.selectbox("🏙️ Pilih Kabupaten:", code[code['code'].str.len() == 5]["Loc"])
     selected_province_code = code[code['Loc'] == option_province]['code'].values[0]
@@ -24,7 +27,7 @@ def main():
     option_sub_district = st.selectbox("🌎 Pilih Desa:", filtered_sub_districts["Loc"])
     selected_sub_district_code = code[code['Loc'] == option_sub_district]['code'].values[0]
 
-    bmkg_api = BMKGWeatherAPI(f"{API}{selected_sub_district_code}")
+    bmkg_api = BMKGWeatherAPI(f"https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4={selected_sub_district_code}")
     data = bmkg_api.fetch_weather_data()
     weather = WeatherForecast(data)
 
