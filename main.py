@@ -2,13 +2,6 @@ import streamlit as st
 import pandas as pd
 from weather_api import BMKGWeatherAPI
 from weather_utils import WeatherForecast
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-
-API = os.getenv("API_URL")
 
 def main():
     st.title("🌤️ Perkiraan Cuaca BMKG")
